@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using MihaZupan;
 using SedDollarBot.Handlers;
 using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
@@ -24,13 +25,14 @@ namespace SedDollarBot
 
             if (proxyConfiguration.Exists())
             {
-                var proxy = new WebProxy(proxyConfiguration["Host"], int.Parse(proxyConfiguration["Port"]))
-                {
-                    Credentials = new NetworkCredential(
-                        proxyConfiguration["User"],
-                        proxyConfiguration["Password"]
-                    )
-                };
+                var proxy = new HttpToSocks5Proxy(
+                    proxyConfiguration["Host"], 
+                    int.Parse(proxyConfiguration["Port"]), 
+                    proxyConfiguration["User"],
+                    proxyConfiguration["Password"]
+                );
+                proxy.ResolveHostnamesLocally = true;
+
                 bot = new TelegramBotClient(token, proxy);
             }
             else
