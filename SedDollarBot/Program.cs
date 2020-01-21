@@ -40,6 +40,7 @@ namespace SedDollarBot
             iocContainerBuilder.RegisterType<UpdateHandler>().As<IUpdateHandler>();
             
             iocContainerBuilder.RegisterType<SubstituteHandler>().As<IMessageHandler>();
+            iocContainerBuilder.RegisterType<ListSubstitutionsHandler>().As<IMessageHandler>().PreserveExistingDefaults();
             iocContainerBuilder.RegisterType<ClearHandler>().As<IMessageHandler>().PreserveExistingDefaults();
             iocContainerBuilder.RegisterType<DelayedSubstituteHandler>().As<IMessageHandler>().PreserveExistingDefaults();
 
