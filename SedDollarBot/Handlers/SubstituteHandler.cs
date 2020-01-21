@@ -44,7 +44,7 @@ namespace SedDollarBot.Handlers
 
                     await bot.SendTextMessageAsync(
                         message.Chat.Id,
-                        "Added substitution to delayed (until restart or /clear)",
+                        "Added substitution to delayed (until restart)",
                         replyToMessageId: message.MessageId
                     );
                 }
