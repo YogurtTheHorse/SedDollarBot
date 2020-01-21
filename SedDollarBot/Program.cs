@@ -26,8 +26,8 @@ namespace SedDollarBot
             if (proxyConfiguration.Exists())
             {
                 var proxy = new HttpToSocks5Proxy(
-                    proxyConfiguration["Host"], 
-                    int.Parse(proxyConfiguration["Port"]), 
+                    proxyConfiguration["Host"],
+                    int.Parse(proxyConfiguration["Port"]),
                     proxyConfiguration["User"],
                     proxyConfiguration["Password"]
                 );
@@ -49,14 +49,11 @@ namespace SedDollarBot
             var handler = new UpdateHandler(bot, new IMessageHandler[]
             {
                 new SubstituteHandler(),
-                new ClearHandler(), 
-                new DelayedSubstituteHandler(), 
+                new ClearHandler(),
+                new DelayedSubstituteHandler(),
             });
 
-            bot.StartReceiving(
-                new DefaultUpdateHandler(handler.HandleUpdateAsync, handler.HandleErrorAsync),
-                cancellationTokenSource.Token
-            );
+            bot.StartReceiving(handler, cancellationTokenSource.Token);
 
             Console.WriteLine($"Start listening for @{botInfo.Username}");
             Console.ReadLine();
