@@ -49,7 +49,7 @@ namespace SedDollarBot
             var handler = new UpdateHandler(bot, new IMessageHandler[]
             {
                 new SubstituteHandler(),
-                new ClearHandler(), 
+                //new ClearHandler(), 
                 new DelayedSubstituteHandler(), 
             });
 
