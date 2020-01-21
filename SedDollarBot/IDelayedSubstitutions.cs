@@ -7,5 +7,7 @@ namespace SedDollarBot
         int Clear();
 
         Substitution[] ListSubstitutes();
+        
+        void RemoveAt(int deletionIndex);
     }
 }

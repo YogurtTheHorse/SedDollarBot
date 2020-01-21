@@ -16,5 +16,7 @@ namespace SedDollarBot
         }
 
         public Substitution[] ListSubstitutes() => _substitutions.ToArray();
+
+        public void RemoveAt(int deletionIndex) => _substitutions.RemoveAt(deletionIndex);
     }
 }
