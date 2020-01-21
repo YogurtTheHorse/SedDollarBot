@@ -32,8 +32,13 @@ namespace SedDollarBot.Handlers
             {
                 string leftRegex = regexs.Substring(pattern.Length + 1);
                 string replacement = ReadTillSeparator(leftRegex);
+                string flags = replacement != leftRegex
+                    ? leftRegex.Substring(replacement.Length + 1)
+                    : string.Empty;
 
-                string result = Regex.Replace(input, pattern, replacement);
+                RegexOptions options = ToRegexOptions(flags);
+
+                string result = Regex.Replace(input, pattern, replacement, options);
 
                 await bot.SendTextMessageAsync(
                     message.Chat.Id,
@@ -41,6 +46,23 @@ namespace SedDollarBot.Handlers
                     replyToMessageId: message.MessageId
                 );
             }
+        }
+
+        private RegexOptions ToRegexOptions(string flags)
+        {
+            RegexOptions o = default;
+
+            if (flags.Contains("i"))
+            {
+                o |= RegexOptions.IgnoreCase;
+            }
+
+            if (flags.Contains("m"))
+            {
+                o |= RegexOptions.Multiline;
+            }
+
+            return o;
         }
 
         private static string ReadTillSeparator(string s)
