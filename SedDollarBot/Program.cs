@@ -1,14 +1,39 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Telegram.Bot;
+using Telegram.Bot.Extensions.Polling;
+using Telegram.Bot.Types;
 
 namespace SedDollarBot
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             IConfigurationRoot configuration = BuildConfiguration();
+
+            var bot = new TelegramBotClient(configuration.GetSection("Bot:Token").Value);
+            User botInfo = await bot.GetMeAsync();
+
+            Console.Title = botInfo.Username;
+
+            var cancellationTokenSource = new CancellationTokenSource();
+            var handler = new UpdateHandler(bot);
+
+            bot.StartReceiving(
+                new DefaultUpdateHandler(handler.HandleUpdateAsync, handler.HandleErrorAsync),
+                cancellationTokenSource.Token
+            );
+
+            Console.WriteLine($"Start listening for @{botInfo.Username}");
+            Console.ReadLine();
+
+            cancellationTokenSource.Cancel();
+        }
+
         private static IConfigurationRoot BuildConfiguration()
         {
             IConfigurationBuilder builder = new ConfigurationBuilder()
