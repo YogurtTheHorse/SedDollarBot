@@ -11,6 +11,12 @@ namespace SedDollarBot.Handlers
 
         public async Task Handle(Message message, TelegramBotClient bot)
         {
+            if (message.Chat.Id == message.From.Id)
+            {
+                await HandleImplementation(message, bot);
+                return;
+            }
+            
             ChatMember chatMember = await bot.GetChatMemberAsync(message.Chat.Id, message.From.Id);
 
             if (chatMember.Status == ChatMemberStatus.Administrator || chatMember.Status == ChatMemberStatus.Creator)
