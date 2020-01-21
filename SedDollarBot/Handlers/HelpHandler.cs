@@ -6,7 +6,7 @@ namespace SedDollarBot.Handlers
 {
     public class HelpHandler : IMessageHandler
     {
-        public bool IsAcceptable(Message message) => message?.Text?.ToLower()?.StartsWith("/help") ?? false
+        public bool IsAcceptable(Message message) => message?.Text?.ToLower()?.StartsWith("/help") ?? false;
 
         public Task Handle(Message message, TelegramBotClient bot) =>
             bot.SendTextMessageAsync(
