@@ -7,6 +7,13 @@ namespace SedDollarBot.Handlers
 {
     public class ClearHandler : IMessageHandler
     {
+        private readonly IDelayedSubstitutions _delayedSubstitutions;
+
+        public ClearHandler(IDelayedSubstitutions delayedSubstitutions)
+        {
+            _delayedSubstitutions = delayedSubstitutions;
+        }
+        
         public bool IsAcceptable(Message message) => message.Text.ToLower().StartsWith("/clear");
 
         public async Task Handle(Message message, TelegramBotClient bot)
@@ -15,7 +22,7 @@ namespace SedDollarBot.Handlers
 
             if (chatMember.Status == ChatMemberStatus.Administrator || chatMember.Status == ChatMemberStatus.Creator)
             {
-                int deleted = DelayedSubstituteHandler.Clear();
+                int deleted = _delayedSubstitutions.Clear();
                 
                 await bot.SendTextMessageAsync(
                     message.Chat.Id,

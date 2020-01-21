@@ -8,6 +8,13 @@ namespace SedDollarBot.Handlers
 {
     public class SubstituteHandler : IMessageHandler
     {
+        private readonly IDelayedSubstitutions _delayedSubstitutions;
+
+        public SubstituteHandler(IDelayedSubstitutions delayedSubstitutions)
+        {
+            _delayedSubstitutions = delayedSubstitutions;
+        }
+
         public bool IsAcceptable(Message message)
         {
             return message.Type == MessageType.Text && message.Text.StartsWith("s/");
@@ -38,8 +45,13 @@ namespace SedDollarBot.Handlers
 
                 if (flags.Contains("a"))
                 {
-                    DelayedSubstituteHandler.DelaySubstitute(
-                        (pattern, replacement, options)
+                    _delayedSubstitutions.DelaySubstitute(
+                        new Substitution
+                        {
+                            Pattern = pattern,
+                            Replacement = replacement,
+                            RegexOptions = options
+                        }
                     );
 
                     await bot.SendTextMessageAsync(

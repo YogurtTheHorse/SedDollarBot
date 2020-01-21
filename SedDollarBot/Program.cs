@@ -30,6 +30,12 @@ namespace SedDollarBot
             var cancellationTokenSource = new CancellationTokenSource();
             
             var iocContainerBuilder = new ContainerBuilder();
+
+            iocContainerBuilder
+                .RegisterType<InMemoryDelayedSubstitutions>()
+                .As<IDelayedSubstitutions>()
+                .SingleInstance();
+            
             iocContainerBuilder.RegisterInstance(bot).As<TelegramBotClient>();
             iocContainerBuilder.RegisterType<UpdateHandler>().As<IUpdateHandler>();
             
