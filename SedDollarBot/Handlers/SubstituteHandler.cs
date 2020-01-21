@@ -10,13 +10,11 @@ namespace SedDollarBot.Handlers
     {
         public bool IsAcceptable(Message message)
         {
-            return message.Type == MessageType.Text && message.Text.StartsWith("s/") && message.ReplyToMessage != null;
+            return message.Type == MessageType.Text && message.Text.StartsWith("s/");
         }
 
         public async Task Handle(Message message, TelegramBotClient bot)
         {
-            string input = message.ReplyToMessage.Text;
-
             string regexs = message.Text.Substring(2);
             string pattern = ReadTillSeparator(regexs);
 
@@ -38,13 +36,37 @@ namespace SedDollarBot.Handlers
 
                 RegexOptions options = ToRegexOptions(flags);
 
-                string result = Regex.Replace(input, pattern, replacement, options);
+                if (flags.Contains("a"))
+                {
+                    DelayedSubstituteHandler.DelaySubstitute(
+                        (pattern, replacement, options)
+                    );
 
-                await bot.SendTextMessageAsync(
-                    message.Chat.Id,
-                    result,
-                    replyToMessageId: message.MessageId
-                );
+                    await bot.SendTextMessageAsync(
+                        message.Chat.Id,
+                        "Added substitution to delayed (until restart or /clear)",
+                        replyToMessageId: message.MessageId
+                    );
+                }
+                else if (message.ReplyToMessage != null)
+                {
+                    string input = message.ReplyToMessage.Text;
+                    string result = Regex.Replace(input, pattern, replacement, options);
+
+                    await bot.SendTextMessageAsync(
+                        message.Chat.Id,
+                        result,
+                        replyToMessageId: message.MessageId
+                    );
+                }
+                else
+                {
+                    await bot.SendTextMessageAsync(
+                        message.Chat.Id,
+                        "You forgot to reply either 'a' flag",
+                        replyToMessageId: message.MessageId
+                    );
+                }
             }
         }
 
