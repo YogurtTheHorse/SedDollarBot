@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SedDollarBot.Handlers;
@@ -15,10 +17,10 @@ namespace SedDollarBot
         private readonly TelegramBotClient _bot;
         private readonly IMessageHandler[] _messageHandlers;
 
-        public UpdateHandler(TelegramBotClient bot, IMessageHandler[] messageHandlers)
+        public UpdateHandler(TelegramBotClient bot, IEnumerable<IMessageHandler> messageHandlers)
         {
             _bot = bot;
-            _messageHandlers = messageHandlers;
+            _messageHandlers = messageHandlers.ToArray();
         }
 
         private async Task BotOnMessageReceived(Message message)
