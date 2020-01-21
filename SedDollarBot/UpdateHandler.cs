@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SedDollarBot.Handlers;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
@@ -13,10 +14,12 @@ namespace SedDollarBot
     public class UpdateHandler
     {
         private readonly TelegramBotClient _bot;
+        private readonly IMessageHandler[] _messageHandlers;
 
-        public UpdateHandler(TelegramBotClient bot)
+        public UpdateHandler(TelegramBotClient bot, IMessageHandler[] messageHandlers)
         {
             _bot = bot;
+            _messageHandlers = messageHandlers;
         }
 
         public async Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
@@ -56,9 +59,14 @@ namespace SedDollarBot
 
         private async Task BotOnMessageReceived(Message message)
         {
-            if (message.Type != MessageType.Text) return;
-            
-            
+            foreach (IMessageHandler handler in _messageHandlers)
+            {
+                if (handler.IsAcceptable(message))
+                {
+                    await handler.Handle(message, _bot);
+                    break;
+                }
+            }
         }
 
         private Task UnknownUpdateHandlerAsync(Update update)

@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using SedDollarBot.Handlers;
 using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
@@ -21,7 +22,10 @@ namespace SedDollarBot
             Console.Title = botInfo.Username;
 
             var cancellationTokenSource = new CancellationTokenSource();
-            var handler = new UpdateHandler(bot);
+            var handler = new UpdateHandler(bot, new IMessageHandler[]
+            {
+                new SubstituteHandler()
+            });
 
             bot.StartReceiving(
                 new DefaultUpdateHandler(handler.HandleUpdateAsync, handler.HandleErrorAsync),
