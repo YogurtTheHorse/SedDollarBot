@@ -48,7 +48,9 @@ namespace SedDollarBot
             var cancellationTokenSource = new CancellationTokenSource();
             var handler = new UpdateHandler(bot, new IMessageHandler[]
             {
-                new SubstituteHandler()
+                new SubstituteHandler(),
+                new ClearHandler(), 
+                new DelayedSubstituteHandler(), 
             });
 
             bot.StartReceiving(
