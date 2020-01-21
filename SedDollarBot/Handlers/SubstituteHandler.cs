@@ -50,7 +50,7 @@ namespace SedDollarBot.Handlers
                         {
                             Pattern = pattern,
                             Replacement = replacement,
-                            RegexOptions = options
+                            Options = options
                         }
                     );
 

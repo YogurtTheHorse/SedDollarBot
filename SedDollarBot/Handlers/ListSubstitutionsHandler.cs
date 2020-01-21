@@ -34,7 +34,7 @@ namespace SedDollarBot.Handlers
                 string text = $"Currently bot contains {substitutions.Length} substitutions:\n\n";
                 text += string.Join("\n",
                     substitutions.Select((s, i) => 
-                            $"{i + 1}. s/{s.Pattern}/{s.Replacement}/{OptionsToFlags(s.RegexOptions)}"
+                            $"{i + 1}. {s}"
                         )
                 );
                 
@@ -44,23 +44,6 @@ namespace SedDollarBot.Handlers
                     replyToMessageId: message.MessageId
                 );
             }
-        }
-
-        private string OptionsToFlags(RegexOptions options)
-        {
-            var res = "a";
-
-            if ((options & RegexOptions.Multiline) != 0)
-            {
-                res += "m";
-            }
-
-            if ((options & RegexOptions.IgnoreCase) != 0)
-            {
-                res += "i";
-            }
-
-            return res;
         }
     }
 }

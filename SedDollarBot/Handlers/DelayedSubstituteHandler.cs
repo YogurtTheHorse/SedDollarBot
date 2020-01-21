@@ -26,7 +26,7 @@ namespace SedDollarBot.Handlers
                 .ListSubstitutes()
                 .Aggregate(
                     message.Text,
-                    (current, s) => Regex.Replace(current, s.Pattern, s.Replacement, s.RegexOptions)
+                    (current, s) => Regex.Replace(current, s.Pattern, s.Replacement, s.Options)
                 );
 
             if (output != originalInput)
