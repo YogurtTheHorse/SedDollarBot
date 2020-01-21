@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +17,28 @@ namespace SedDollarBot
         {
             IConfigurationRoot configuration = BuildConfiguration();
 
-            var bot = new TelegramBotClient(configuration.GetSection("Bot:Token").Value);
+            IConfigurationSection proxyConfiguration = configuration.GetSection("Bot:Proxy");
+            string token = configuration.GetSection("Bot:Token").Value;
+
+            TelegramBotClient bot = null;
+
+            if (proxyConfiguration.Exists())
+            {
+                var proxy = new WebProxy(proxyConfiguration["Host"], int.Parse(proxyConfiguration["Port"]))
+                {
+                    Credentials = new NetworkCredential(
+                        proxyConfiguration["User"],
+                        proxyConfiguration["Password"]
+                    )
+                };
+                bot = new TelegramBotClient(token, proxy);
+            }
+            else
+            {
+                bot = new TelegramBotClient(token);
+            }
+
+
             User botInfo = await bot.GetMeAsync();
 
             Console.Title = botInfo.Username;
