@@ -50,6 +50,7 @@ namespace SedDollarBot.Handlers
                         {
                             ChatId = message.Chat.Id,
                             Pattern = pattern,
+                            DeleteAfter = flags.Contains("d"),
                             Replacement = replacement,
                             Options = options
                         }

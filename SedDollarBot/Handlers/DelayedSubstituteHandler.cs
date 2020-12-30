@@ -21,20 +21,35 @@ namespace SedDollarBot.Handlers
 
         public async Task Handle(Message message, TelegramBotClient bot)
         {
-            string originalInput = message.Text;
+            var applied = false;
+            var deleteAfter = false;
+            
             string output = _delayedSubstitutions
                 .ListSubstitutes(message.Chat.Id)
                 .Aggregate(
                     message.Text,
-                    (current, s) => Regex.Replace(current, s.Pattern, s.Replacement, s.Options)
+                    (current, s) =>
+                    {
+                        string newString = Regex.Replace(current, s.Pattern, s.Replacement, s.Options);
+
+                        applied = newString != current;
+                        deleteAfter |= s.DeleteAfter;
+                        
+                        return newString;
+                    }
                 );
 
-            if (output != originalInput)
+            if (applied)
             {
                 await bot.SendTextMessageAsync(
                     message.Chat.Id,
                     output
                 );
+
+                if (deleteAfter)
+                {
+                    await bot.DeleteMessageAsync(message.Chat.Id, message.MessageId);
+                }
             }
         }
     }

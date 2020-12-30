@@ -11,6 +11,8 @@ namespace SedDollarBot
         public string Replacement { get; set; }
 
         public RegexOptions Options { get; set; }
+        
+        public bool DeleteAfter { get; set; }
 
         public override string ToString()
         {
