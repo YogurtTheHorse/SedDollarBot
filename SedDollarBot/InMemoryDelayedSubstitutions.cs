@@ -11,12 +11,11 @@ namespace SedDollarBot
 
         public int Clear(long chatId)
         {
-            var toRemove = _substitutions.Where(s => s.ChatId == chatId);
-            var deleted = 0;
+            Substitution[] toRemove = ListSubstitutes(chatId);
+            var deleted = toRemove.Length;
             foreach (Substitution substitution in toRemove)
             {
                 _substitutions.Remove(substitution);
-                deleted++;
             }
             return deleted;
         }
