@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SedDollarBot
 {
@@ -15,7 +16,8 @@ namespace SedDollarBot
             return deleted;
         }
 
-        public Substitution[] ListSubstitutes() => _substitutions.ToArray();
+        public Substitution[] ListSubstitutes(long chat) => 
+            _substitutions.Where(s => s.ChatId == chat).ToArray();
 
         public void RemoveAt(int deletionIndex) => _substitutions.RemoveAt(deletionIndex);
     }

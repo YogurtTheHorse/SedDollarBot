@@ -33,7 +33,7 @@ namespace SedDollarBot.Handlers
             else
             {
                 var toDelete = new List<int>();
-                int substitutionsCount = _delayedSubstitutions.ListSubstitutes().Length;
+                int substitutionsCount = _delayedSubstitutions.ListSubstitutes(message.Chat.Id).Length;
 
                 if (substitutionsCount == 0)
                 {

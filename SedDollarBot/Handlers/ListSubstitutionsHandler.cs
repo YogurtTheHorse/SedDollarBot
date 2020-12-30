@@ -19,7 +19,7 @@ namespace SedDollarBot.Handlers
 
         public async Task Handle(Message message, TelegramBotClient bot)
         {
-            Substitution[] substitutions = _delayedSubstitutions.ListSubstitutes();
+            Substitution[] substitutions = _delayedSubstitutions.ListSubstitutes(message.Chat.Id);
 
             if (substitutions.Length == 0)
             {

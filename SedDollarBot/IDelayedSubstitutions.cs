@@ -6,7 +6,7 @@ namespace SedDollarBot
 
         int Clear();
 
-        Substitution[] ListSubstitutes();
+        Substitution[] ListSubstitutes(long chat);
         
         void RemoveAt(int deletionIndex);
     }

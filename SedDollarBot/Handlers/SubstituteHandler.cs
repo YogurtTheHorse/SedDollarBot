@@ -48,6 +48,7 @@ namespace SedDollarBot.Handlers
                     _delayedSubstitutions.DelaySubstitute(
                         new Substitution
                         {
+                            ChatId = message.Chat.Id,
                             Pattern = pattern,
                             Replacement = replacement,
                             Options = options

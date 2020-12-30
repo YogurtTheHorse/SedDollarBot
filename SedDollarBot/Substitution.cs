@@ -4,6 +4,8 @@ namespace SedDollarBot
 {
     public class Substitution
     {
+        public long ChatId { get; set; }
+        
         public string Pattern { get; set; }
 
         public string Replacement { get; set; }

@@ -17,13 +17,13 @@ namespace SedDollarBot.Handlers
         }
 
         public bool IsAcceptable(Message message) =>
-            !string.IsNullOrEmpty(message.Text) && _delayedSubstitutions.ListSubstitutes().Length > 0;
+            !string.IsNullOrEmpty(message.Text) && _delayedSubstitutions.ListSubstitutes(message.Chat.Id).Length > 0;
 
         public async Task Handle(Message message, TelegramBotClient bot)
         {
             string originalInput = message.Text;
             string output = _delayedSubstitutions
-                .ListSubstitutes()
+                .ListSubstitutes(message.Chat.Id)
                 .Aggregate(
                     message.Text,
                     (current, s) => Regex.Replace(current, s.Pattern, s.Replacement, s.Options)
