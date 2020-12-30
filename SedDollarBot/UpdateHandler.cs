@@ -25,13 +25,21 @@ namespace SedDollarBot
 
         private async Task BotOnMessageReceived(Message message)
         {
-            foreach (IMessageHandler handler in _messageHandlers)
+            try
             {
-                if (handler.IsAcceptable(message))
+                foreach (IMessageHandler handler in _messageHandlers)
                 {
-                    await handler.Handle(message, _bot);
-                    break;
+                    if (handler.IsAcceptable(message))
+                    {
+                        await handler.Handle(message, _bot);
+                        break;
+                    }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Shit happened");
+                Console.WriteLine(e);
             }
         }
 

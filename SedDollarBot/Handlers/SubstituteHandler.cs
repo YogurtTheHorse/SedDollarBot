@@ -17,7 +17,7 @@ namespace SedDollarBot.Handlers
 
         public bool IsAcceptable(Message message)
         {
-            return message.Type == MessageType.Text && message.Text.StartsWith("s/");
+            return message?.Type == MessageType.Text && message.Text.StartsWith("s/");
         }
 
         public async Task Handle(Message message, TelegramBotClient bot)
