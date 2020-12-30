@@ -14,11 +14,11 @@ namespace SedDollarBot.Handlers
             _delayedSubstitutions = delayedSubstitutions;
         }
 
-        public override bool IsAcceptable(Message message) => message.Text?.ToLower().Equals("/clear", StringComparison.OrdinalIgnoreCase) ?? false;
+        public override bool IsAcceptable(Message message) => message.Text?.ToLower()?.Equals("/clear", StringComparison.OrdinalIgnoreCase) ?? false;
 
         protected override async Task HandleImplementation(Message message, TelegramBotClient bot)
         {
-            int deleted = _delayedSubstitutions.Clear();
+            int deleted = _delayedSubstitutions.Clear(message.Chat.Id);
 
             await bot.SendTextMessageAsync(
                 message.Chat.Id,

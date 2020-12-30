@@ -4,7 +4,7 @@ namespace SedDollarBot
     {
         void DelaySubstitute(Substitution substitution);
 
-        int Clear();
+        int Clear(long chatId);
 
         Substitution[] ListSubstitutes(long chat);
         

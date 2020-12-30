@@ -9,10 +9,15 @@ namespace SedDollarBot
         
         public void DelaySubstitute(Substitution substitution) => _substitutions.Add(substitution);
 
-        public int Clear()
+        public int Clear(long chatId)
         {
-            int deleted = _substitutions.Count;
-            _substitutions.Clear();
+            var toRemove = _substitutions.Where(s => s.ChatId == chatId);
+            var deleted = 0;
+            foreach (Substitution substitution in toRemove)
+            {
+                _substitutions.Remove(substitution);
+                deleted++;
+            }
             return deleted;
         }
 
