@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -13,7 +14,7 @@ namespace SedDollarBot.Handlers
             _delayedSubstitutions = delayedSubstitutions;
         }
 
-        public override bool IsAcceptable(Message message) => message.Text?.ToLower().StartsWith("/clear") ?? false;
+        public override bool IsAcceptable(Message message) => message.Text?.ToLower().Equals("/clear", StringComparison.OrdinalIgnoreCase) ?? false;
 
         protected override async Task HandleImplementation(Message message, TelegramBotClient bot)
         {
