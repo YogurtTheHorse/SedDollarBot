@@ -32,7 +32,7 @@ namespace SedDollarBot.Handlers
                     {
                         string newString = Regex.Replace(current, s.Pattern, s.Replacement, s.Options);
 
-                        applied = newString != current;
+                        applied |= newString != current;
                         deleteAfter |= (newString != current) && s.DeleteAfter;
                         
                         return newString;
