@@ -80,7 +80,7 @@ namespace SedDollarBot.Handlers
 
                 foreach (int deletionIndex in toDelete)
                 {
-                    _delayedSubstitutions.RemoveAt(deletionIndex);
+                    _delayedSubstitutions.RemoveAt(deletionIndex, message.Chat.Id);
                 }
 
                 string indexes = string.Join(", ", toDelete.Select(i => (i + 1).ToString()));

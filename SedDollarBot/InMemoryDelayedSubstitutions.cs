@@ -15,9 +15,21 @@ namespace SedDollarBot
             return _substitutions.RemoveAll(toRemove.Contains);
         }
 
+        public bool RemoveAt(int index, long chatId)
+        {
+            Substitution[] substitutions = ListSubstitutes(chatId);
+
+            if (index < 0 || index >= substitutions.Length)
+            {
+                return false;
+            }
+
+            _substitutions.Remove(substitutions[index]);
+
+            return true;
+        }
+
         public Substitution[] ListSubstitutes(long chat) => 
             _substitutions.Where(s => s.ChatId == chat).ToArray();
-
-        public void RemoveAt(int deletionIndex) => _substitutions.RemoveAt(deletionIndex);
     }
 }
